@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -314,21 +313,6 @@ mixin StateLifecycleMixin<T extends StatefulWidget> on State<T>
 
   @override
   Future<bool> didPushRouteInformation(RouteInformation routeInformation) {
-    final Uri uri = routeInformation.uri;
-    return didPushRoute(
-      Uri.decodeComponent(
-        Uri(
-          path: uri.path.isEmpty ? '/' : uri.path,
-          queryParameters:
-              uri.queryParametersAll.isEmpty ? null : uri.queryParametersAll,
-          fragment: uri.fragment.isEmpty ? null : uri.fragment,
-        ).toString(),
-      ),
-    );
-  }
-
-  @override
-  Future<AppExitResponse> didRequestAppExit() async {
-    return AppExitResponse.exit;
+    return didPushRoute(routeInformation.location!);
   }
 }

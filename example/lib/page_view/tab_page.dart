@@ -15,10 +15,10 @@ class TabPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('TabPage'),
       ),
-      body: const DefaultTabController(
+      body: DefaultTabController(
         length: 4,
         child: Column(
-          children: [
+          children: const [
             TabBar(
               tabs: [
                 Tab(text: 'PageOne'),
