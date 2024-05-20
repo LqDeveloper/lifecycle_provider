@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 
 import 'context_scroll_extension.dart';
 import 'lifecycle_route_aware.dart';
@@ -331,4 +332,16 @@ mixin StateLifecycleMixin<T extends StatefulWidget> on State<T>
   Future<AppExitResponse> didRequestAppExit() async {
     return AppExitResponse.exit;
   }
+
+  @override
+  void handleCancelBackGesture() {}
+
+  @override
+  void handleCommitBackGesture() {}
+
+  @override
+  bool handleStartBackGesture(PredictiveBackEvent backEvent) => false;
+
+  @override
+  void handleUpdateBackGestureProgress(PredictiveBackEvent backEvent) {}
 }

@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 extension ContextScrollExtension on BuildContext {
@@ -30,5 +30,24 @@ extension ContextScrollExtension on BuildContext {
 
   bool isInScrollView(RenderAbstractViewport? viewport) {
     return viewport != null;
+  }
+
+  BuildContext? getDrawerContext({int maxCycleCount = 200}) {
+    BuildContext? drawerChild;
+    int currentCycleCount = 1;
+    void visitor(Element element) {
+      if (currentCycleCount >= maxCycleCount) {
+        return;
+      }
+      if (element.widget is DrawerController) {
+        drawerChild = element;
+        return;
+      }
+      currentCycleCount++;
+      element.visitChildren(visitor);
+    }
+
+    visitChildElements(visitor);
+    return drawerChild;
   }
 }

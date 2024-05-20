@@ -22,6 +22,11 @@ class HomePage extends StatelessWidget {
                 _push(context, '/bottomNav');
               }),
           ListItem(
+              title: "Drawer场景",
+              onTap: () {
+                _push(context, '/drawer');
+              }),
+          ListItem(
               title: "Pop场景",
               onTap: () {
                 _push(context, '/popPage');

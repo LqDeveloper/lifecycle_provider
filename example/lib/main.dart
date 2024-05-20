@@ -1,6 +1,7 @@
 import 'package:example/page_view/bottom_nav_page.dart';
 import 'package:example/page_view/tab_page.dart';
 import 'package:example/pages/dialog_page.dart';
+import 'package:example/pages/drawer_page.dart';
 import 'package:example/pages/pop_page.dart';
 import 'package:example/pages/pop_until_page.dart';
 import 'package:example/pages/replace_page.dart';
@@ -31,6 +32,7 @@ class MyApp extends BasePage<RootController> {
       routes: {
         "/tabPage": (_) => const TabPage(),
         "/bottomNav": (_) => const BottomNavPage(),
+        "/drawer": (_) => const DrawerPage(),
         "/popPage": (_) => const PopPage(),
         "/popUntilPage": (_) => const PopUntilPage(),
         "/replace": (_) => const ReplacePage(),
