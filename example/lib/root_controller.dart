@@ -83,14 +83,14 @@ class RootController extends BaseController {
   }
 
   @override
-  void onAppResume() {
-    super.onAppResume();
-    logMessage("$runtimeType ---onAppResume");
+  void onAppForeground() {
+    super.onAppForeground();
+    logMessage("$runtimeType ---onAppForeground");
   }
 
   @override
-  void onAppPause() {
-    super.onAppPause();
-    logMessage("$runtimeType ---onAppPause");
+  void onAppBackground() {
+    super.onAppBackground();
+    logMessage("$runtimeType ---onAppBackground");
   }
 }

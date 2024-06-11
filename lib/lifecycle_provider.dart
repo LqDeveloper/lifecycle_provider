@@ -14,4 +14,4 @@ export 'src/widget/page_mixin.dart';
 export 'src/widget/provider_context_extension.dart';
 export 'src/widget/provider_state_builder.dart';
 export 'src/widget/selector_ids.dart';
-export 'src/widget/base_widget.dart';
+export 'src/widget/selector_ids_view.dart';

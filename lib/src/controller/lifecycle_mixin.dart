@@ -65,8 +65,17 @@ mixin LifecycleMixin on ChangeNotifier {
       case LifecycleState.onAppResume:
         onAppResume();
         break;
+      case LifecycleState.onAppInactive:
+        onAppInactive();
+        break;
       case LifecycleState.onAppPause:
         onAppPause();
+        break;
+      case LifecycleState.onAppForeground:
+        onAppForeground();
+        break;
+      case LifecycleState.onAppBackground:
+        onAppBackground();
         break;
       default:
         break;
@@ -115,7 +124,17 @@ mixin LifecycleMixin on ChangeNotifier {
   @protected
   void onAppResume() {}
 
+  ///AppLifecycleState.inactive
+  @protected
+  void onAppInactive() {}
+
   ///AppLifecycleState.paused
   @protected
   void onAppPause() {}
+
+  @protected
+  void onAppForeground() {}
+
+  @protected
+  void onAppBackground() {}
 }

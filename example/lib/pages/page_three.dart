@@ -66,15 +66,11 @@ class PageThreeController extends BasePageController {
   }
 }
 
-class ObserveWidget extends BaseWidget<PageThreeController> {
+class ObserveWidget extends SelectorIdsView<PageThreeController> {
   const ObserveWidget({super.key});
 
   @override
-  Widget buildWidget(
-    BuildContext context,
-    PageThreeController controller,
-    Widget? child,
-  ) {
+  Widget buildWidget(BuildContext context, PageThreeController controller) {
     if (controller.isLogin) {
       return const Text('当前是登录状态');
     } else {

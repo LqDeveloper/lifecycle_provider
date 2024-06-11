@@ -24,11 +24,12 @@ class SelectorIds<T extends NotifyMixin> extends StatelessWidget {
     final controller = context.read<T>();
     assert(controller.containsMultiId(ids), 'ids:$ids中包含没有注册的id ');
     return Selector<T, int>(
-        child: child,
-        selector: (BuildContext context, controller) =>
-            controller.getMultiIdValue(ids),
-        builder: (BuildContext context, int value, Widget? child) {
-          return builder(context, controller, child);
-        });
+      child: child,
+      selector: (BuildContext context, controller) =>
+          controller.getMultiIdValue(ids),
+      builder: (BuildContext context, int value, Widget? child) {
+        return builder(context, controller, child);
+      },
+    );
   }
 }

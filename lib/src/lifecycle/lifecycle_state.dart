@@ -10,7 +10,10 @@ enum LifecycleState {
   onPageLeaveAnimationEnd,
   onPageDispose,
   onAppResume,
-  onAppPause;
+  onAppInactive,
+  onAppPause,
+  onAppForeground,
+  onAppBackground;
 
   bool get isPageResume => this == LifecycleState.onPageResume;
 

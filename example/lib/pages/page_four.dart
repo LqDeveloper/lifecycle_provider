@@ -36,12 +36,11 @@ class _PageFourState extends BasePageState<PageFour, PageFourController> {
 
 class PageFourController extends BasePageController {}
 
-class _CountWidget extends BaseWidget<RootController> {
+class _CountWidget extends SelectorIdsView<RootController> {
   const _CountWidget();
 
   @override
-  Widget buildWidget(
-      BuildContext context, RootController controller, Widget? child) {
+  Widget buildWidget(BuildContext context, RootController controller) {
     return Text('RootController 中Count的值是：${controller.count}');
   }
 

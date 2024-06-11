@@ -30,6 +30,8 @@ mixin StateLifecycleMixin<T extends StatefulWidget> on State<T>
 
   ScrollNotificationObserverState? _scrollState;
 
+  bool _isFromAppPause = false;
+
   @override
   void initState() {
     super.initState();
@@ -92,14 +94,11 @@ mixin StateLifecycleMixin<T extends StatefulWidget> on State<T>
     }
     _isInPageView = true;
     assert(pageIndex > -1, "当前页面位于PageView中，必须设置pageIndex ");
-    //添加滚动监听 混入这个mixin的StatefulWidget 必须存在于 Scaffold 中，否则就无法监听滚动
-    //或者在PageView父节点中使用ScrollNotificationObserver包裹住
     _scrollState = ScrollNotificationObserver.maybeOf(context);
     _scrollState?.addListener(_scrollNotification);
   }
 
   void _scrollNotification(ScrollNotification notification) {
-    //ScrollNotification冒泡通过的Viewport的个数必须为0,才会去响应
     if (notification.depth > 0) {
       return;
     }
@@ -244,7 +243,16 @@ mixin StateLifecycleMixin<T extends StatefulWidget> on State<T>
   void onAppResume() {}
 
   @protected
+  void onAppInactive() {}
+
+  @protected
   void onAppPause() {}
+
+  @protected
+  void onAppForeground() {}
+
+  @protected
+  void onAppBackground() {}
 
   @protected
   void onLifecycleStateChanged(LifecycleState state) {}
@@ -280,10 +288,22 @@ mixin StateLifecycleMixin<T extends StatefulWidget> on State<T>
   void didChangeAppLifecycleState(AppLifecycleState state) {
     switch (state) {
       case AppLifecycleState.resumed:
+        if (_isFromAppPause) {
+          _isFromAppPause = false;
+          onAppForeground();
+          onLifecycleStateChanged(LifecycleState.onAppForeground);
+        }
         onAppResume();
         onLifecycleStateChanged(LifecycleState.onAppResume);
         break;
+      case AppLifecycleState.inactive:
+        onAppInactive();
+        onLifecycleStateChanged(LifecycleState.onAppInactive);
+        break;
       case AppLifecycleState.paused:
+        _isFromAppPause = true;
+        onAppBackground();
+        onLifecycleStateChanged(LifecycleState.onAppBackground);
         onAppPause();
         onLifecycleStateChanged(LifecycleState.onAppPause);
         break;

@@ -26,15 +26,17 @@ class ProviderStateBuilder<T extends LifecycleMixin> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final builder = Builder(builder: (cxt) {
-      return LifecycleObserverWidget<T>(
-        pageIndex: pageIndex,
-        controller: cxt.rc<T>(),
-        builder: (BuildContext context) {
-          return child;
-        },
-      );
-    });
+    final builder = Builder(
+      builder: (cxt) {
+        return LifecycleObserverWidget<T>(
+          pageIndex: pageIndex,
+          controller: cxt.rc<T>(),
+          builder: (BuildContext context) {
+            return child;
+          },
+        );
+      },
+    );
 
     if (value != null) {
       return ChangeNotifierProvider<T>.value(
