@@ -4,8 +4,8 @@ import 'event_bus_mixin.dart';
 import 'lifecycle_mixin.dart';
 import 'notify_mixin.dart';
 
-abstract class BaseController extends ChangeNotifier
-    with NotifyMixin, LifecycleMixin, EventBusMixin {
+abstract class BaseController<T extends Enum> extends ChangeNotifier
+    with NotifyMixin<T>, LifecycleMixin, EventBusMixin {
   @override
   @mustCallSuper
   void onPageInit() {
@@ -13,5 +13,5 @@ abstract class BaseController extends ChangeNotifier
     registerIds(shouldNotifyIds);
   }
 
-  List<String> get shouldNotifyIds;
+  List<T> get shouldNotifyIds;
 }

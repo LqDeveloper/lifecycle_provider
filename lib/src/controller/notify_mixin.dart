@@ -3,8 +3,8 @@ import 'package:flutter/scheduler.dart';
 
 import 'package:meta/meta.dart';
 
-class _State {
-  final String name;
+class _State<T> {
+  final T name;
 
   int _value = 0;
 
@@ -20,12 +20,12 @@ class _State {
   }
 }
 
-mixin NotifyMixin on ChangeNotifier {
+mixin NotifyMixin<T extends Enum> on ChangeNotifier {
   bool _disposed = false;
 
   bool get shouldLog => true;
 
-  final Map<String, _State> _updatedIds = {};
+  final Map<T, _State> _updatedIds = {};
 
   bool _hasRegister = false;
 
@@ -41,9 +41,9 @@ mixin NotifyMixin on ChangeNotifier {
 
   @protected
   @mustCallSuper
-  void registerIds(List<String> ids) {
+  void registerIds(List<T> ids) {
     logMessage("--register--ids: $ids");
-    for (String name in ids) {
+    for (T name in ids) {
       _updatedIds[name] = _State(name: name);
     }
     _hasRegister = true;
@@ -72,7 +72,7 @@ mixin NotifyMixin on ChangeNotifier {
 
   @protected
   @mustCallSuper
-  void notifyMultiListeners(List<String> ids) {
+  void notifyMultiListeners(List<T> ids) {
     if (_disposed) {
       return;
     }
@@ -81,7 +81,7 @@ mixin NotifyMixin on ChangeNotifier {
     if (ids.isEmpty) {
       return;
     }
-    for (String id in ids) {
+    for (T id in ids) {
       assert(containsId(id),
           '${runtimeType.toString()}: Id: $id must be register');
       _updatedIds[id]?.increasedTag();
@@ -100,7 +100,7 @@ mixin NotifyMixin on ChangeNotifier {
 
   @protected
   @mustCallSuper
-  void notifySingleListener(String id) {
+  void notifySingleListener(T id) {
     if (_disposed) {
       return;
     }
@@ -121,13 +121,13 @@ mixin NotifyMixin on ChangeNotifier {
   }
 
   @internal
-  bool containsId(String id) {
+  bool containsId(T id) {
     return _updatedIds.containsKey(id);
   }
 
   @internal
-  bool containsMultiId(List<String> ids) {
-    for (String id in ids) {
+  bool containsMultiId(List<T> ids) {
+    for (T id in ids) {
       if (!containsId(id)) {
         assert(containsId(id),
             '${runtimeType.toString()}: id: $id must be register');
@@ -138,14 +138,14 @@ mixin NotifyMixin on ChangeNotifier {
   }
 
   @internal
-  int getIdValue(String id) {
+  int getIdValue(T id) {
     return _updatedIds[id]?.value ?? 0;
   }
 
   @internal
-  int getMultiIdValue(List<String> ids) {
+  int getMultiIdValue(List<T> ids) {
     int value = 0;
-    for (String id in ids) {
+    for (T id in ids) {
       value += getIdValue(id);
     }
     return value;

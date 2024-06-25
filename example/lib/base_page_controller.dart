@@ -1,8 +1,8 @@
 import 'package:lifecycle_provider/lifecycle_provider.dart';
 
-class BasePageController extends BaseController {
+class BasePageController<T extends Enum> extends BaseController<T> {
   @override
-  List<String> get shouldNotifyIds => [];
+  List<T> get shouldNotifyIds => [];
 
   @override
   void onPageStart() {

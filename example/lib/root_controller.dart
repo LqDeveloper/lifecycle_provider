@@ -1,17 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:lifecycle_provider/lifecycle_provider.dart';
 
-class RootEventId {
-  RootEventId._();
+enum RootEvent { updateStatus }
 
-  static const updateStatus = 'updateStatus';
-
-  static const List<String> events = [updateStatus];
-}
-
-class RootController extends BaseController {
+class RootController extends BaseController<RootEvent> {
   @override
-  List<String> get shouldNotifyIds => RootEventId.events;
+  List<RootEvent> get shouldNotifyIds => RootEvent.values;
 
   int _count = 0;
 
@@ -19,7 +13,7 @@ class RootController extends BaseController {
 
   void increase() {
     _count++;
-    notifySingleListener(RootEventId.updateStatus);
+    notifySingleListener(RootEvent.updateStatus);
   }
 
   @override

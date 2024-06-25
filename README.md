@@ -68,11 +68,20 @@ enum LifecycleState {
   ///只会执行一次
   onPageDispose,
 
-  ///当App从后台进入前台的时候调用
+  ///AppLifecycleState.resumed
   onAppResume,
+  
+  ///AppLifecycleState.inactive
+  onAppInactive,
+
+  ///AppLifecycleState.paused
+  onAppPause,
+
+  ///当App从后台进入前台的时候调用
+  onAppForeground,
 
   ///当页面从前台进入后台的时候调用
-  onAppPause;
+  onAppBackground;
 }
 
 
@@ -90,8 +99,8 @@ enum LifecycleState {
 
 ```dart
 
-abstract class BaseController extends ChangeNotifier
-    with NotifyMixin, LifecycleMixin, EventBusMixin {
+abstract class BaseController<T extends Enum> extends ChangeNotifier
+    with NotifyMixin<T>, LifecycleMixin, EventBusMixin {
   @override
   @mustCallSuper
   void onPageInit() {
@@ -99,7 +108,7 @@ abstract class BaseController extends ChangeNotifier
     registerIds(shouldNotifyIds);
   }
 
-  List<String> get shouldNotifyIds;
+  List<T> get shouldNotifyIds;
 }
 
 
@@ -107,16 +116,11 @@ abstract class BaseController extends ChangeNotifier
 
 ```dart
 
-class UpdatePageEvent {
-  UpdatePageEvent._();
+enum UpdatePageEvent { update }
 
-  static const update = "updateValue";
-  static const List<String> _events = [update];
-}
-
-class UpdatePageController extends BasePageController {
+class UpdatePageController extends BasePageController<UpdatePageEvent> {
   @override
-  List<String> get shouldNotifyIds => UpdatePageEvent._events;
+  List<UpdatePageEvent> get shouldNotifyIds => UpdatePageEvent.values;
 
   int _count = 0;
 
@@ -129,6 +133,7 @@ class UpdatePageController extends BasePageController {
 }
 
 
+
 class UpdatePage extends BasePage<UpdatePageController> {
   const UpdatePage({super.key});
 
@@ -138,17 +143,14 @@ class UpdatePage extends BasePage<UpdatePageController> {
   }
 
   @override
-  Widget providerStateBuild(BuildContext context, UpdatePageController controller) {
+  Widget providerStateBuild(
+      BuildContext context, UpdatePageController controller) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('UpdatePage'),
       ),
       body: Center(
-
-        ///必须设置想要监听的Controller
-        child: SelectorId<UpdatePageController>(
-
-          ///必须设置想要监听的事件
+        child: SelectorIds<UpdatePageEvent, UpdatePageController>(
             ids: const [UpdatePageEvent.update],
             builder: (_, controller, __) {
               return Text('当前的值是：${controller.count}');
@@ -161,7 +163,6 @@ class UpdatePage extends BasePage<UpdatePageController> {
     );
   }
 }
-
 
 
 ```

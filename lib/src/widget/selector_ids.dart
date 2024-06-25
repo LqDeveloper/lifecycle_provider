@@ -2,22 +2,23 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
-import '../controller/notify_mixin.dart';
+import '../controller/base_controller.dart';
 
-typedef CustomSelectorBuilder<T extends NotifyMixin> = Widget Function(
-    BuildContext context, T controller, Widget? child);
+typedef CustomSelectorBuilder<E extends Enum, T extends BaseController<E>>
+    = Widget Function(BuildContext context, T controller, Widget? child);
 
-class SelectorIds<T extends NotifyMixin> extends StatelessWidget {
-  final List<String> ids;
-  final CustomSelectorBuilder<T> builder;
+class SelectorIds<E extends Enum, T extends BaseController<E>>
+    extends StatelessWidget {
+  final List<E> ids;
+  final CustomSelectorBuilder<E, T> builder;
   final Widget? child;
 
   const SelectorIds({
-    Key? key,
+    super.key,
     required this.ids,
     required this.builder,
     this.child,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

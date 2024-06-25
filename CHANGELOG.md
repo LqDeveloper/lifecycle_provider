@@ -30,3 +30,7 @@
 ## 0.0.8
 
 * Change LifecycleMixin
+
+## 0.0.9
+
+* Change LifecycleMixin

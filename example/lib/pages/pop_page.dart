@@ -33,7 +33,12 @@ class PopPage extends BasePage<PopPageController> {
   }
 }
 
-class PopPageController extends BaseController {
+enum PageOneEvent { none }
+
+class PopPageController extends BaseController<PageOneEvent> {
+  @override
+  List<PageOneEvent> get shouldNotifyIds => [];
+
   @override
   void onPageInit() {
     super.onPageInit();
@@ -105,7 +110,4 @@ class PopPageController extends BaseController {
     super.onAppPause();
     logMessage("$runtimeType ---onAppPause");
   }
-
-  @override
-  List<String> get shouldNotifyIds => [];
 }

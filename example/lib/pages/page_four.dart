@@ -34,9 +34,11 @@ class _PageFourState extends BasePageState<PageFour, PageFourController> {
   }
 }
 
-class PageFourController extends BasePageController {}
+enum PageFourEvent { none }
 
-class _CountWidget extends SelectorIdsView<RootController> {
+class PageFourController extends BasePageController<PageFourEvent> {}
+
+class _CountWidget extends SelectorIdsView<RootEvent, RootController> {
   const _CountWidget();
 
   @override
@@ -45,5 +47,5 @@ class _CountWidget extends SelectorIdsView<RootController> {
   }
 
   @override
-  List<String> get observeIds => [RootEventId.updateStatus];
+  List<RootEvent> get observeIds => [RootEvent.updateStatus];
 }

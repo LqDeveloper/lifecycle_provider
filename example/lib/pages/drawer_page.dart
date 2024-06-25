@@ -34,9 +34,11 @@ class DrawerPage extends BasePage<DrawerPageController> {
   }
 }
 
-class DrawerPageController extends BaseController {
+enum DrawerEvent { none }
+
+class DrawerPageController extends BaseController<DrawerEvent> {
   @override
-  List<String> get shouldNotifyIds => [];
+  List<DrawerEvent> get shouldNotifyIds => DrawerEvent.values;
 
   @override
   void onPageStart() {

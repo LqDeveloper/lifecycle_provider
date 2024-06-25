@@ -34,16 +34,11 @@ class _PageThreeState extends BasePageState<PageThree, PageThreeController> {
   }
 }
 
-class PageThreeEvent {
-  PageThreeEvent._();
+enum PageThreeEvent { updateState }
 
-  static const updateState = 'updateState';
-  static const List<String> events = [updateState];
-}
-
-class PageThreeController extends BasePageController {
+class PageThreeController extends BasePageController<PageThreeEvent> {
   @override
-  List<String> get shouldNotifyIds => PageThreeEvent.events;
+  List<PageThreeEvent> get shouldNotifyIds => PageThreeEvent.values;
 
   bool _isLogin = false;
 
@@ -66,7 +61,8 @@ class PageThreeController extends BasePageController {
   }
 }
 
-class ObserveWidget extends SelectorIdsView<PageThreeController> {
+class ObserveWidget
+    extends SelectorIdsView<PageThreeEvent, PageThreeController> {
   const ObserveWidget({super.key});
 
   @override
@@ -79,5 +75,5 @@ class ObserveWidget extends SelectorIdsView<PageThreeController> {
   }
 
   @override
-  List<String> get observeIds => [PageThreeEvent.updateState];
+  List<PageThreeEvent> get observeIds => [PageThreeEvent.updateState];
 }

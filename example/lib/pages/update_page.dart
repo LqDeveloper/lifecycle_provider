@@ -19,7 +19,7 @@ class UpdatePage extends BasePage<UpdatePageController> {
         title: const Text('UpdatePage'),
       ),
       body: Center(
-        child: SelectorIds<UpdatePageController>(
+        child: SelectorIds<UpdatePageEvent, UpdatePageController>(
             ids: const [UpdatePageEvent.update],
             builder: (_, controller, __) {
               return Text('当前的值是：${controller.count}');
@@ -33,16 +33,11 @@ class UpdatePage extends BasePage<UpdatePageController> {
   }
 }
 
-class UpdatePageEvent {
-  UpdatePageEvent._();
+enum UpdatePageEvent { update }
 
-  static const update = "updateValue";
-  static const List<String> _events = [update];
-}
-
-class UpdatePageController extends BasePageController {
+class UpdatePageController extends BasePageController<UpdatePageEvent> {
   @override
-  List<String> get shouldNotifyIds => UpdatePageEvent._events;
+  List<UpdatePageEvent> get shouldNotifyIds => UpdatePageEvent.values;
 
   int _count = 0;
 
