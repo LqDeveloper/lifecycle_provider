@@ -13,6 +13,8 @@ import 'home_page.dart';
 import 'root_controller.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  AppLifecycleManager.instance.listen();
   runApp(const MyApp());
 }
 

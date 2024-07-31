@@ -1,17 +1,17 @@
 import 'dart:async';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
 
+import 'app_lifecycle_manager.dart';
+import 'app_lifecycle_observer.dart';
 import 'context_scroll_extension.dart';
 import 'lifecycle_route_aware.dart';
 import 'lifecycle_route_observer.dart';
 import 'lifecycle_state.dart';
 
 mixin StateLifecycleMixin<T extends StatefulWidget> on State<T>
-    implements WidgetsBindingObserver, LifecycleRouteAware {
+    implements AppLifecycleObserver, LifecycleRouteAware {
   bool _didRunOnContextReady = false;
   ModalRoute? _modalRoute;
 
@@ -30,12 +30,10 @@ mixin StateLifecycleMixin<T extends StatefulWidget> on State<T>
 
   ScrollNotificationObserverState? _scrollState;
 
-  bool _isFromAppPause = false;
-
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
+    AppLifecycleManager.instance.addObserver(this);
     onPageInit();
     onLifecycleStateChanged(LifecycleState.onPageInit);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -66,7 +64,7 @@ mixin StateLifecycleMixin<T extends StatefulWidget> on State<T>
   void dispose() {
     _modalRoute?.animation?.removeStatusListener(_handlerAnimationStatus);
     _checkNotifyPageStop();
-    WidgetsBinding.instance.removeObserver(this);
+    AppLifecycleManager.instance.removeObserver(this);
     LifecycleRouteObserver.instance.unsubscribe(this);
     _disposeScrollState();
     _modalRoute = null;
@@ -282,17 +280,9 @@ mixin StateLifecycleMixin<T extends StatefulWidget> on State<T>
   }
 
   @override
-  void didChangeAccessibilityFeatures() {}
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
+  void appLifecycleChanged(AppLifecycleState state) {
     switch (state) {
       case AppLifecycleState.resumed:
-        if (_isFromAppPause) {
-          _isFromAppPause = false;
-          onAppForeground();
-          onLifecycleStateChanged(LifecycleState.onAppForeground);
-        }
         onAppResume();
         onLifecycleStateChanged(LifecycleState.onAppResume);
         break;
@@ -301,9 +291,6 @@ mixin StateLifecycleMixin<T extends StatefulWidget> on State<T>
         onLifecycleStateChanged(LifecycleState.onAppInactive);
         break;
       case AppLifecycleState.paused:
-        _isFromAppPause = true;
-        onAppBackground();
-        onLifecycleStateChanged(LifecycleState.onAppBackground);
         onAppPause();
         onLifecycleStateChanged(LifecycleState.onAppPause);
         break;
@@ -313,55 +300,14 @@ mixin StateLifecycleMixin<T extends StatefulWidget> on State<T>
   }
 
   @override
-  void didChangeLocales(List<Locale>? locales) {}
-
-  @override
-  void didChangeMetrics() {}
-
-  @override
-  void didChangePlatformBrightness() {}
-
-  @override
-  void didChangeTextScaleFactor() {}
-
-  @override
-  void didHaveMemoryPressure() {}
-
-  @override
-  Future<bool> didPopRoute() => Future<bool>.value(false);
-
-  @override
-  Future<bool> didPushRoute(String route) => Future<bool>.value(false);
-
-  @override
-  Future<bool> didPushRouteInformation(RouteInformation routeInformation) {
-    final Uri uri = routeInformation.uri;
-    return didPushRoute(
-      Uri.decodeComponent(
-        Uri(
-          path: uri.path.isEmpty ? '/' : uri.path,
-          queryParameters:
-              uri.queryParametersAll.isEmpty ? null : uri.queryParametersAll,
-          fragment: uri.fragment.isEmpty ? null : uri.fragment,
-        ).toString(),
-      ),
-    );
+  void appBackground() {
+    onAppBackground();
+    onLifecycleStateChanged(LifecycleState.onAppBackground);
   }
 
   @override
-  Future<AppExitResponse> didRequestAppExit() async {
-    return AppExitResponse.exit;
+  void appForeground() {
+    onAppForeground();
+    onLifecycleStateChanged(LifecycleState.onAppForeground);
   }
-
-  @override
-  void handleCancelBackGesture() {}
-
-  @override
-  void handleCommitBackGesture() {}
-
-  @override
-  bool handleStartBackGesture(PredictiveBackEvent backEvent) => false;
-
-  @override
-  void handleUpdateBackGestureProgress(PredictiveBackEvent backEvent) {}
 }
