@@ -21,6 +21,11 @@ class AppLifecycleManager extends WidgetsBindingObserver {
 
   Stream<bool> get isForeground => _streamController.stream;
 
+  final StreamController<AppLifecycleState> _lifecycleController =
+      StreamController.broadcast();
+
+  Stream<AppLifecycleState> get lifecycle => _lifecycleController.stream;
+
   void listen() {
     if (_hanListen) {
       return;
@@ -57,6 +62,7 @@ class AppLifecycleManager extends WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
+    _lifecycleController.add(state);
     for (final observer in _observers) {
       _runObserver(state, observer);
     }
