@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -57,6 +58,15 @@ mixin StateLifecycleMixin<T extends StatefulWidget> on State<T>
           _modalRoute?.settings.name, _modalRoute?.settings.arguments);
       onLifecycleStateChanged(LifecycleState.onPageContextReady);
       _modalRoute?.animation?.addStatusListener(_handlerAnimationStatus);
+    }
+  }
+
+  @override
+  void reassemble() {
+    super.reassemble();
+    if (kDebugMode) {
+      onPageReassemble();
+      onLifecycleStateChanged(LifecycleState.onPageReassemble);
     }
   }
 
@@ -215,6 +225,9 @@ mixin StateLifecycleMixin<T extends StatefulWidget> on State<T>
 
   @protected
   void onPagePostFrame() {}
+
+  @protected
+  void onPageReassemble() {}
 
   @protected
   void onPageStart() {}

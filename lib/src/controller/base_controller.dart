@@ -13,5 +13,12 @@ abstract class BaseController<T extends Enum> extends ChangeNotifier
     registerIds(shouldNotifyIds);
   }
 
+  @override
+  @mustCallSuper
+  void onPageReassemble() {
+    super.onPageReassemble();
+    registerIds(shouldNotifyIds);
+  }
+
   List<T> get shouldNotifyIds;
 }

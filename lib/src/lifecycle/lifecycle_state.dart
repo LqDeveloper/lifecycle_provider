@@ -2,6 +2,7 @@ enum LifecycleState {
   onPageInit,
   onPageContextReady,
   onPagePostFrame,
+  onPageReassemble,
   onPageStart,
   onPageResume,
   onPageEnterAnimationEnd,

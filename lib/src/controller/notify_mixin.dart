@@ -42,6 +42,7 @@ mixin NotifyMixin<T extends Enum> on ChangeNotifier {
   @protected
   @mustCallSuper
   void registerIds(List<T> ids) {
+    _updatedIds.clear();
     logMessage("--register--ids: $ids");
     for (T name in ids) {
       _updatedIds[name] = _State(name: name);

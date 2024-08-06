@@ -41,6 +41,9 @@ mixin LifecycleMixin on ChangeNotifier {
       case LifecycleState.onPagePostFrame:
         onPagePostFrame();
         break;
+      case LifecycleState.onPageReassemble:
+        onPageReassemble();
+        break;
       case LifecycleState.onPageStart:
         onPageStart();
         break;
@@ -98,6 +101,9 @@ mixin LifecycleMixin on ChangeNotifier {
 
   @protected
   void onPagePostFrame() {}
+
+  @protected
+  void onPageReassemble() {}
 
   @protected
   void onPageStart() {}
