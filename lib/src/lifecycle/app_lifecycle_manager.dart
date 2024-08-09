@@ -64,11 +64,11 @@ class AppLifecycleManager extends WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     _lifecycleController.add(state);
     for (final observer in _observers) {
-      _runObserver(state, observer);
+      _notifyObserver(state, observer);
     }
   }
 
-  void _runObserver(AppLifecycleState state, AppLifecycleObserver observer) {
+  void _notifyObserver(AppLifecycleState state, AppLifecycleObserver observer) {
     observer.appLifecycleChanged(state);
     switch (state) {
       case AppLifecycleState.resumed:

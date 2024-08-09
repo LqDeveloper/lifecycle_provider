@@ -4,6 +4,7 @@ export 'src/controller/base_controller.dart';
 export 'src/controller/event_bus_mixin.dart';
 export 'src/controller/lifecycle_mixin.dart';
 export 'src/controller/notify_mixin.dart';
+export 'src/event_bus/event_bus.dart';
 export 'src/event_bus/global_event_bus.dart';
 export 'src/lifecycle/app_lifecycle_manager.dart';
 export 'src/lifecycle/lifecycle_route_observer.dart';

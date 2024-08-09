@@ -1,8 +1,5 @@
 import 'dart:async';
 
-import 'package:meta/meta.dart';
-
-@internal
 class EventBus {
   final StreamController<dynamic> _streamController;
 
