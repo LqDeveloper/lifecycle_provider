@@ -1,0 +1,74 @@
+#使用 include: url 来从指定的 URL 引入选项 —— 在这种情况下，通常是引入来自 lints 包中的文件。由于 YAML
+#不支持多个重复的 key，你只能引入最多一个文件；
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  exclude:
+    - test/*.dart
+    - example/**/*.dart
+
+
+  # 全局修改单个规则的警告等级
+  # ignore：忽略规则
+  # info：消息，不会造成 analysis 验证失败。
+  # warning：警告，一般不会造成 analysis 验证失败，除非分析器被配置了对待警告与错误一致。
+  # error: 错误，会造成 analysis 验证失败。
+#  errors:
+#    close_sinks: ignore
+#    missing_required_param: error
+#    missing_return: error
+#    record_literal_one_positional_no_trailing_comma: error
+#    collection_methods_unrelated_type: warning
+#    unrelated_type_equality_checks: warning
+
+  language:
+    #设为 true 可确保类型推理引擎不再将 dynamic 进行隐式类型转换。
+    strict-casts: false
+    #设为 true 可确保当类型推理引擎无法确定静态类型时，不再选择dynamic 类型。
+    strict-inference: false
+    #设为 true 可确保当类型推理引擎，由于省略类型参数而无法确定静态类型时，不再选择dynamic 类型。
+    strict-raw-types: false
+
+
+## https://dart.cn/tools/linter-rules
+linter:
+  rules:
+    #    - always_use_package_imports #避免lib/
+    - prefer_relative_imports    # 更喜欢相对导入lib/.
+    - avoid_dynamic_calls        # 避免对“动态”目标进行方法调用或属性访问。
+    - avoid_empty_else           # 避免空的 else 语句。
+    - avoid_print                # 避免print在生产代码中调用。
+    - cancel_subscriptions       # 取消 dart.async.StreamSubscription 的实例。
+#    - discarded_futures          # 不要在非异步块中调用异步函数。
+    - empty_statements           # 避免空语句。
+    - no_logic_in_create_state   # 不要在 createState 中放置任何逻辑。
+    - throw_in_finally           # 避免throw在finally块中。
+    - valid_regexps              # 使用有效的正则表达式语法。
+    - always_declare_return_types # 声明方法返回类型。
+    - always_put_control_body_on_new_line  # 将控制结构表达式与其语句分开。
+    - avoid_catches_without_on_clauses  # 避免没有 on 子句的捕获。
+    - avoid_return_types_on_setters   # 避免 setter 上的返回类型。
+    - avoid_unnecessary_containers    # 避免不必要的容器。
+    - avoid_void_async                # 避免返回 void 的异步函数。
+    - cast_nullable_to_non_nullable   # 不要将可为 null 的值转换为不可为 null 的类型。
+    - empty_constructor_bodies        # 使用;而不是{}空构造函数体。
+    - exhaustive_cases                # 为类枚举类中的所有常量定义 case 子句。
+    - file_names                      # 使用 . 命名源文件lowercase_with_underscores。
+    - prefer_conditional_assignment   # 更喜欢使用??=null 而不是测试。
+    - prefer_const_constructors       # 更喜欢 const 和常量构造函数。
+    - prefer_const_declarations       # 对于声明，更喜欢 const 而不是 Final。
+    - prefer_const_literals_to_create_immutables # 更喜欢 const 文字作为 @immutable 类的构造函数的参数。
+    - prefer_constructors_over_static_methods  # 更喜欢定义构造函数而不是静态方法来创建实例。
+    #    - prefer_final_fields                     # 将属性用final修饰
+    #    - prefer_final_in_for_each                # 如果未重新分配引用，则首选 for-each 循环变量中的 Final。
+    - prefer_final_locals                     # 如果不重新分配变量声明，则优先使用 Final。
+    #    - prefer_final_parameters                 # 如果不重新分配参数声明，则优先使用 Final。
+    - prefer_mixin                            # 更喜欢使用 mixin。
+    - unnecessary_to_list_in_spreads          # 不需要 toList()
+    - use_enums                               # 使用枚举而不是行为类似枚举的类。
+    - unnecessary_overrides                   # 不要重写方法来使用相同的参数执行超级方法调用。
+    - unnecessary_new                         # 不需要用new
+    - unnecessary_late                        # late不需要时不要指定修饰符。
+    - unnecessary_getters_setters             # 为了“安全”，避免将字段包装在 getter 和 setter 中。
+    #    - unnecessary_breaks                      # 不必要的break Dart 2.19 及更低版本中仍然需要显式中断。dart 3.0后不需要break了
+    - unawaited_futures                       # Future async函数体中的结果必须使用 进行await编辑或标记。
