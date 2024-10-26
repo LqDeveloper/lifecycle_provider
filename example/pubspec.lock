@@ -5,10 +5,10 @@ packages:
     dependency: transitive
     description:
       name: args
-      sha256: "7cf60b9f0cc88203c5a190b4cd62a99feea42759a7fa695010eb5de1c0b2252a"
+      sha256: bf9f5caeea8d8fe6721a9c358dd8a5c1947b27f1cfaa18b39c301273594919e6
       url: "https://pub.dev"
     source: hosted
-    version: "2.5.0"
+    version: "2.6.0"
   async:
     dependency: transitive
     description:
@@ -167,8 +167,8 @@ packages:
     description:
       path: "."
       ref: "0.0.1"
-      resolved-ref: ac624a7b7bbe48d0d6cf1c1aeb5b8acef17760ac
-      url: "https://github.com/LqDeveloper/page_lifecycle.git"
+      resolved-ref: d0f9b7f9dfc7f1bbdd83b3f245dc9ed04a5f84b1
+      url: "git@github.com:LqDeveloper/page_lifecycle.git"
     source: git
     version: "0.0.1"
   path:

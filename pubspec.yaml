@@ -15,7 +15,7 @@ dependencies:
   provider: ^6.1.2
   page_lifecycle:
     git:
-      url: https://github.com/LqDeveloper/page_lifecycle.git
+      url: git@github.com:LqDeveloper/page_lifecycle.git
       ref: 0.0.1
 
 dev_dependencies:

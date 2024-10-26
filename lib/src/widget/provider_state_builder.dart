@@ -8,46 +8,45 @@ import 'provider_context_extension.dart';
 
 class ProviderStateBuilder<T extends LifecycleMixin> extends StatelessWidget {
   final int? pageIndex;
-  final T Function(BuildContext context)? create;
-  final T? value;
-  final Widget child;
+  final T Function(BuildContext context) create;
+  final Widget Function(BuildContext context, T controller)? builder;
+  final Widget? child;
 
   const ProviderStateBuilder({
     Key? key,
     this.pageIndex,
-    this.create,
-    this.value,
-    required this.child,
+    required this.create,
+    this.child,
+    this.builder,
   })  : assert(
-            (create == null && value != null) ||
-                (create != null && value == null),
-            'create 和 value 不能同时为空'),
+            (child == null && builder != null) ||
+                (child != null && builder == null),
+            'child 和 builder 不能同时为空或者同时不为空'),
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final builder = Builder(
-      builder: (cxt) {
-        return LifecycleObserverWidget<T>(
-          pageIndex: pageIndex,
-          controller: cxt.rc<T>(),
-          builder: (BuildContext context) {
-            return child;
-          },
-        );
-      },
-    );
-
-    if (value != null) {
-      return ChangeNotifierProvider<T>.value(
-        value: value!,
-        child: builder,
-      );
-    }
-
     return ChangeNotifierProvider<T>(
-      create: create!,
-      child: builder,
+      create: create,
+      child: Builder(
+        builder: (cxt) {
+          final controller = cxt.rc<T>();
+          return LifecycleObserverWidget<T>(
+            pageIndex: pageIndex,
+            controller: controller,
+            builder: (BuildContext context) {
+              if (child != null) {
+                return child!;
+              } else {
+                return builder!.call(
+                  context,
+                  controller,
+                );
+              }
+            },
+          );
+        },
+      ),
     );
   }
 }

@@ -6,7 +6,10 @@ analyzer:
   exclude:
     - test/*.dart
     - example/**/*.dart
-
+#  errors:
+#    invalid_export_of_internal_element: error
+#    must_call_super: error
+#    invalid_use_of_protected_member: error
 
   # 全局修改单个规则的警告等级
   # ignore：忽略规则
@@ -72,3 +75,14 @@ linter:
     - unnecessary_getters_setters             # 为了“安全”，避免将字段包装在 getter 和 setter 中。
     #    - unnecessary_breaks                      # 不必要的break Dart 2.19 及更低版本中仍然需要显式中断。dart 3.0后不需要break了
     - unawaited_futures                       # Future async函数体中的结果必须使用 进行await编辑或标记。
+    #    - avoid_web_libraries_in_flutter
+    - prefer_const_constructors_in_immutables
+    - sized_box_for_whitespace
+    - sort_child_properties_last
+    - use_build_context_synchronously
+    - use_full_hex_values_for_flutter_colors
+    - use_key_in_widget_constructors
+    - avoid_returning_null_for_void
+    - avoid_returning_this
+    - matching_super_parameters
+    - no_self_assignments

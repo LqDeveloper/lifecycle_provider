@@ -17,6 +17,7 @@ abstract class BaseController<T extends Enum> extends ChangeNotifier
   @mustCallSuper
   void onPageReassemble() {
     super.onPageReassemble();
+    logMessage("Hot Reload 重新注册id");
     registerIds(shouldNotifyIds);
   }
 

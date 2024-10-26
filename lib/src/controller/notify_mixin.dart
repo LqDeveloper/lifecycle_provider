@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/scheduler.dart';
-
 import 'package:meta/meta.dart';
 
 class _State<T> {
@@ -67,7 +66,14 @@ mixin NotifyMixin<T extends Enum> on ChangeNotifier {
   @override
   void notifyListeners() {
     if (!_disposed) {
-      super.notifyListeners();
+      if (SchedulerBinding.instance.schedulerPhase ==
+          SchedulerPhase.persistentCallbacks) {
+        SchedulerBinding.instance.addPostFrameCallback((_) {
+          super.notifyListeners();
+        });
+      } else {
+        super.notifyListeners();
+      }
     }
   }
 
@@ -87,16 +93,8 @@ mixin NotifyMixin<T extends Enum> on ChangeNotifier {
           '${runtimeType.toString()}: Id: $id must be register');
       _updatedIds[id]?.increasedTag();
     }
-
-    ///如果正处于build阶段，则等待build结束后再更新
-    if (SchedulerBinding.instance.schedulerPhase ==
-        SchedulerPhase.persistentCallbacks) {
-      SchedulerBinding.instance.addPostFrameCallback((_) {
-        notifyListeners();
-      });
-    } else {
-      notifyListeners();
-    }
+    observeNotifyEvent(ids);
+    notifyListeners();
   }
 
   @protected
@@ -110,15 +108,8 @@ mixin NotifyMixin<T extends Enum> on ChangeNotifier {
     assert(
         containsId(id), '${runtimeType.toString()}: id: $id must be register');
     _updatedIds[id]?.increasedTag();
-
-    if (SchedulerBinding.instance.schedulerPhase ==
-        SchedulerPhase.persistentCallbacks) {
-      SchedulerBinding.instance.addPostFrameCallback((_) {
-        notifyListeners();
-      });
-    } else {
-      notifyListeners();
-    }
+    observeNotifyEvent([id]);
+    notifyListeners();
   }
 
   @internal
@@ -139,22 +130,26 @@ mixin NotifyMixin<T extends Enum> on ChangeNotifier {
   }
 
   @internal
-  int getIdValue(T id) {
+  int updateIdValue(T id) {
     return _updatedIds[id]?.value ?? 0;
   }
 
   @internal
-  int getMultiIdValue(List<T> ids) {
+  int updateMultiIdValue(List<T> ids) {
     int value = 0;
     for (T id in ids) {
-      value += getIdValue(id);
+      value += updateIdValue(id);
     }
     return value;
   }
 
+  @protected
   void logMessage(String message) {
     if (kDebugMode && shouldLog) {
       debugPrint("${runtimeType.toString()}: $message");
     }
   }
+
+  @protected
+  void observeNotifyEvent(List<T> events) {}
 }
