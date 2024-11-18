@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:meta/meta.dart';
-import 'package:page_lifecycle/page_lifecycle.dart';
+
+import '../lifecycle/lifecycle_state.dart';
 
 mixin LifecycleMixin on ChangeNotifier {
   String? _routeName;

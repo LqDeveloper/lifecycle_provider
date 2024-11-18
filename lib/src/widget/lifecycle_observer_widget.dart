@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:meta/meta.dart';
-import 'package:page_lifecycle/page_lifecycle.dart';
 
 import '../controller/lifecycle_mixin.dart';
+import '../lifecycle/lifecycle_state.dart';
+import '../lifecycle/state_lifecycle_mixin.dart';
 
 @internal
 class LifecycleObserverWidget<T extends LifecycleMixin> extends StatefulWidget {

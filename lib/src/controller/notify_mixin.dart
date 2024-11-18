@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/scheduler.dart';
+
 import 'package:meta/meta.dart';
 
 class _State<T> {
