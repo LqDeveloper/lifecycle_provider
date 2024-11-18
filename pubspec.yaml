@@ -1,6 +1,6 @@
 name: lifecycle_provider
 description: Based on the provider and combined with GetX, a state management tool is developed, which enables the widget to have an Android-like life cycle.
-version: 0.0.10
+version: 0.0.11
 homepage: https://github.com/LqDeveloper/lifecycle_provider
 
 environment:

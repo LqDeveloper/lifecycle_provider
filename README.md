@@ -1,101 +1,104 @@
-## lifecycle_provider的优势
+## Advantages of lifecycle_provider
 
-1. 和组件的生命周期，页面的路由做了绑定
-2. 跨页面间数据通信，并且不需要有共同的父Controller
-3. 基于Event的事件局部更新，调试更新widget的更加方便
-4. 可以基于BaseController，添加Mixin ,方便业务逻辑解耦和复用
+1. Binds with the lifecycle of components and page routes
 
-## 监听路由变化
+2. Data communication across pages, and no need for a common parent Controller
+
+3. Event-based partial update, debugging and updating widgets is more convenient
+
+4. Add Mixin based on BaseController to facilitate business logic decoupling and reuse
+
+## Listening for route changes
 
 ```dart
+
 @override
 Widget build(BuildContext context) {
   return MaterialApp(
 
-    ///需要将状态管理的路由监听添加到navigatorObservers中
+    ///Need to add state management route listener to navigatorObservers
     navigatorObservers: [LifecycleRouteObserver()],
   );
 }
 
 ```
 
-## 状态管理中生命周期介绍
+## Introduction to lifecycle in state management
 
 ```dart
 
 enum LifecycleState {
-  ///对应于State中的initState
-  ///只会执行一次
-  onPageInit,
+///Corresponds to initState in State
+///Only executed once
+onPageInit,
 
-  ///onPageInit之后，会立刻调用这个方法，并且只会调用一次，
-  ///在这个方法里面可以根据context获取到其他InheritWidget中的数据，可以获取路由传过来的参数
-  ///这个方法之后会调用State的Build方法，也就是在这个方法里面不需要再调用notifyListeners方法了
-  ///只会执行一次
-  onPageContextReady,
+///After onPageInit, this method will be called immediately and only once,
+///In this method, you can get the data in other InheritWidgets according to context, and you can get the parameters passed by the route
+///This method will call the Build method of State later, that is, you don't need to call the notifyListeners method in this method
+///Only execute once
+onPageContextReady,
 
-  ///这个方法会在Widget的第一帧，渲染完成之后调用，在这个方法里面一般用来做初始化的网络请求操作
-  ///只会执行一次
-  onPagePostFrame,
+///This method will be called after the first frame of the Widget is rendered. This method is generally used to initialize the network request operation
+///Only execute once
+onPagePostFrame,
 
-  ///这个方法会在页面显示时候调用，路由的切换，PageView（前提是设置了pageIndex）的切换都会调用
-  ///可能会执行多次
-  onPageStart,
+///This method will be called when the page is displayed, and the switching of routes and PageView (provided that pageIndex is set) will be called
+///May be executed multiple times
+onPageStart,
 
-  ///这个方法会在页面显示并能响应用户操作的时候调用，路由的切换，PageView（前提是设置了pageIndex）的切换都会调用
-  ///当Dialog，或者BottomSheet pop的时候，下面的页面会调用这个方法
-  ///可能会执行多次
-  onPageResume,
+///This method will be called when the page is displayed and can respond to user operations, and the switching of routes and PageView (provided that pageIndex is set) will be called
+///When Dialog or BottomSheet pops, the following page will call this method
+///May be executed multiple times
+onPageResume,
 
-  ///进入页面的动画结束
-  ///只会执行一次
-  onPageEnterAnimationEnd,
+///The animation of entering the page ends
+///Only execute once
+onPageEnterAnimationEnd,
 
-  ///这个方法会在页面显示不能响应用户操作的时候调用，路由的切换，PageView（前提是设置了pageIndex）的切换都会调用
-  ///当Dialog，或者BottomSheet 显示的时候，下面的页面会调用这个方法
-  ///可能会执行多次
-  onPagePause,
+///This method will be called when the page display cannot respond to user operations. It will be called when the route is switched or PageView (provided that pageIndex is set) is switched.
+///When Dialog or BottomSheet is displayed, the following page will call this method.
+///It may be executed multiple times.
+onPagePause,
 
-  ///这个方法会在页面不显示时候调用，路由的切换，PageView（前提是设置了pageIndex）的切换都会调用
-  ///可能会执行多次
-  onPageStop,
+///This method will be called when the page is not displayed. It will be called when the route is switched or PageView (provided that pageIndex is set).
+///It may be executed multiple times.
+onPageStop,
 
-  ///退出页面的动画结束，可能不回调用，比如在使用replace方法进行路由切换的时候，就不会调用这个方法
-  ///只会执行一次
-  onPageLeaveAnimationEnd,
+///When the animation of exiting the page ends, it may not be called back. For example, when the replace method is used to switch routes, this method will not be called.
+///It will only be executed once.
+onPageLeaveAnimationEnd,
 
-  ///当页面销毁的时候调用
-  ///只会执行一次
-  onPageDispose,
+///Called when the page is destroyed.
+///It will only be executed once.
+onPageDispose,
 
-  ///AppLifecycleState.resumed
-  onAppResume,
-  
-  ///AppLifecycleState.inactive
-  onAppInactive,
+///AppLifecycleState.resumed
+onAppResume,
 
-  ///AppLifecycleState.paused
-  onAppPause,
+///AppLifecycleState.inactive
+onAppInactive,
 
-  ///当App从后台进入前台的时候调用
-  onAppForeground,
+///AppLifecycleState.paused
+onAppPause,
 
-  ///当页面从前台进入后台的时候调用
-  onAppBackground;
+///Called when App enters the foreground from the background
+onAppForeground,
+
+///Called when the page enters the background from the foreground
+onAppBackground;
 }
-
 
 ```
 
-## 如何更新组件
+## How to update components
 
-使用状态管理的Controller可以继承自BaseController或者with NotifyMixin, LifecycleMixin
+Controllers using state management can inherit from BaseController or with NotifyMixin, LifecycleMixin
 
-常用的Mixin
+Common Mixins
 
-1. EventBusMixin: 用来实现跨页面通信的
-2. LifecycleMixin： 用来和State的声明周期做绑定的
-3. NotifyMixin： 基于事件对组件更新
+1. EventBusMixin: used to implement cross-page communication
+2. LifecycleMixin: used to bind with the declaration cycle of State
+3. NotifyMixin: Update components based on events
 
 ```dart
 
@@ -109,19 +112,16 @@ abstract class BaseController<T extends Enum> extends ChangeNotifier
   }
 
   List<T> get shouldNotifyIds;
-}
-
-
-```
-
-```dart
-
+} ``
+`
+`
+`
+`
+dart
 enum UpdatePageEvent { update }
 
 class UpdatePageController extends BasePageController<UpdatePageEvent> {
-  @override
-  List<UpdatePageEvent> get shouldNotifyIds => UpdatePageEvent.values;
-
+  @override List<UpdatePageEvent> get shouldNotifyIds => UpdatePageEvent.values;
   int _count = 0;
 
   int get count => _count;
@@ -132,29 +132,20 @@ class UpdatePageController extends BasePageController<UpdatePageEvent> {
   }
 }
 
-
-
 class UpdatePage extends BasePage<UpdatePageController> {
   const UpdatePage({super.key});
 
-  @override
-  UpdatePageController createController(BuildContext context) {
+  @override UpdatePageController createController(BuildContext context) {
     return UpdatePageController();
   }
 
-  @override
-  Widget providerStateBuild(
-      BuildContext context, UpdatePageController controller) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('UpdatePage'),
-      ),
-      body: Center(
-        child: SelectorIds<UpdatePageEvent, UpdatePageController>(
-            ids: const [UpdatePageEvent.update],
-            builder: (_, controller, __) {
-              return Text('当前的值是：${controller.count}');
-            }),
+  @override Widget providerStateBuild(BuildContext context, UpdatePageController controller) {
+    return Scaffold(appBar: AppBar(title: const Text('UpdatePage'),),
+      body: Center(child: SelectorIds<UpdatePageEvent, UpdatePageController>(
+          ids: const [UpdatePageEvent.update],
+          builder: (_, controller, __) {
+            return Text('Current value is: ${controller.count}');
+          }),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => controller.increase(),
@@ -164,28 +155,26 @@ class UpdatePage extends BasePage<UpdatePageController> {
   }
 }
 
-
 ```
 
-## 如何实现跨页面通信
+## How to implement cross-page communication
 
 ```dart
-class PageOneController extends BasePageController{
-  ///发送事件
+class PageOneController extends BasePageController {
+  ///Send event
   void sendLoginEvent() {
     dispatchEvent(const LoginEvent(true));
   }
 }
 
-
-class PageTwoController extends BasePageController{
+class PageTwoController extends BasePageController {
   @override
   void onInit() {
     super.onInit();
 
-    ///监听事件
+    ///Listen for events
     observeEvent<LoginEvent>((event) {
-      debugPrint('接收到了登录事件----${event.isLogin}');
+      debugPrint('Login event received----${event.isLogin}');
     });
   }
 }
