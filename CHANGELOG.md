@@ -1,3 +1,7 @@
+## 0.0.12
+
+* fix issue
+
 ## 0.0.11
 
 * Based on the provider and combined with GetX, a state management tool is developed, which enables

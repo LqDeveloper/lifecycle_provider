@@ -28,6 +28,7 @@ mixin StateLifecycleMixin<T extends StatefulWidget> on State<T>
 
   bool _hasAppear = false;
   bool _hasResume = false;
+  bool _hasDispose = false;
 
   ScrollNotificationObserverState? _scrollState;
 
@@ -43,6 +44,9 @@ mixin StateLifecycleMixin<T extends StatefulWidget> on State<T>
     onPageInit();
     onLifecycleStateChanged(LifecycleState.onPageInit);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      if (_hasDispose) {
+        return;
+      }
       onPagePostFrame();
       onLifecycleStateChanged(LifecycleState.onPagePostFrame);
       _initPageViewState();
@@ -77,6 +81,7 @@ mixin StateLifecycleMixin<T extends StatefulWidget> on State<T>
 
   @override
   void dispose() {
+    _hasDispose = true;
     _modalRoute?.animation?.removeStatusListener(_handlerAnimationStatus);
     _checkNotifyPageStop();
     AppLifecycleManager.instance.removeObserver(this);
