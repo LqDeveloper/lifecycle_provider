@@ -4,9 +4,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
+import '../widget/custom_index_stack.dart';
 import 'app_lifecycle_manager.dart';
 import 'app_lifecycle_observer.dart';
-import 'context_scroll_extension.dart';
 import 'lifecycle_route_aware.dart';
 import 'lifecycle_route_observer.dart';
 import 'lifecycle_state.dart';
@@ -21,6 +21,10 @@ mixin StateLifecycleMixin<T extends StatefulWidget> on State<T>
   Object? get arguments => _modalRoute?.settings.arguments;
 
   bool _isInPageView = false;
+  RenderSliver? _renderSliver;
+  bool _isIndexStack = false;
+  CustomRenderIndexedStack? _renderIndexedStack;
+  StreamSubscription<int?>? _indexStackSub;
 
   int get pageIndex => -1;
 
@@ -49,7 +53,7 @@ mixin StateLifecycleMixin<T extends StatefulWidget> on State<T>
       }
       onPagePostFrame();
       onLifecycleStateChanged(LifecycleState.onPagePostFrame);
-      _initPageViewState();
+      _initRenderState();
     });
   }
 
@@ -82,6 +86,9 @@ mixin StateLifecycleMixin<T extends StatefulWidget> on State<T>
   @override
   void dispose() {
     _hasDispose = true;
+    _renderSliver = null;
+    _renderIndexedStack = null;
+    _indexStackSub?.cancel();
     _modalRoute?.animation?.removeStatusListener(_handlerAnimationStatus);
     _checkNotifyPageStop();
     AppLifecycleManager.instance.removeObserver(this);
@@ -104,16 +111,61 @@ mixin StateLifecycleMixin<T extends StatefulWidget> on State<T>
     }
   }
 
-  void _initPageViewState() {
-    final renderSliver = context.findAncestorRenderObj<RenderSliver>();
-    if (renderSliver == null || renderSliver is! RenderSliverFillViewport) {
+  void _initRenderState() {
+    _findAncestorRenderObj();
+    if (_renderSliver != null && _renderSliver is RenderSliverFillViewport) {
+      _isInPageView = true;
+      assert(pageIndex > -1, "当前页面位于PageView中，必须设置pageIndex ");
+      _scrollState = ScrollNotificationObserver.maybeOf(context);
+      _scrollState?.addListener(_scrollNotification);
+      return;
+    } else if (_renderIndexedStack != null ||
+        _renderIndexedStack is CustomRenderIndexedStack) {
+      _isIndexStack = true;
+      assert(pageIndex > -1, "当前页面位于CustomRenderIndexedStack中，必须设置pageIndex ");
+      _checkIndexStackIndex();
+      return;
+    } else {
       _notifyPageStart();
+    }
+  }
+
+  void _findAncestorRenderObj({int maxCycleCount = 10}) {
+    final obj = context.findRenderObject();
+    if (obj == null) {
       return;
     }
-    _isInPageView = true;
-    assert(pageIndex > -1, "当前页面位于PageView中，必须设置pageIndex ");
-    _scrollState = ScrollNotificationObserver.maybeOf(context);
-    _scrollState?.addListener(_scrollNotification);
+    int currentCycleCount = 1;
+    var parent = obj.parent;
+    while (parent != null && currentCycleCount <= maxCycleCount) {
+      if (parent is RenderSliver) {
+        _renderSliver = parent;
+        return;
+      } else if (parent is CustomRenderIndexedStack) {
+        _renderIndexedStack = parent;
+        return;
+      }
+      parent = parent.parent;
+      currentCycleCount++;
+    }
+  }
+
+  void _checkIndexStackIndex() {
+    if (!_isIndexStack) {
+      return;
+    }
+    if (_indexStackSub != null) {
+      _indexStackSub?.cancel();
+      _indexStackSub = null;
+    }
+    final index = _renderIndexedStack?.index ?? 0;
+    _checkCurrentPageIndex(index);
+    _indexStackSub = _renderIndexedStack?.stream.listen((val) {
+      if (val == null) {
+        return;
+      }
+      _checkCurrentPageIndex(val);
+    });
   }
 
   void _scrollNotification(ScrollNotification notification) {
@@ -134,6 +186,10 @@ mixin StateLifecycleMixin<T extends StatefulWidget> on State<T>
     }
     final PageMetrics metrics = notification.metrics as PageMetrics;
     final int index = metrics.page!.round();
+    _checkCurrentPageIndex(index);
+  }
+
+  void _checkCurrentPageIndex(int index) {
     if (index != _currentIndex) {
       if (index == pageIndex) {
         Future.delayed(Duration.zero, () {
@@ -155,7 +211,7 @@ mixin StateLifecycleMixin<T extends StatefulWidget> on State<T>
   }
 
   void _checkNotifyPageStart() {
-    if (_isInPageView) {
+    if (_isInPageView || _isIndexStack) {
       if (_currentIndex != pageIndex) {
         return;
       }
@@ -178,7 +234,7 @@ mixin StateLifecycleMixin<T extends StatefulWidget> on State<T>
   }
 
   void _checkNotifyPageStop() {
-    if (_isInPageView) {
+    if (_isInPageView || _isIndexStack) {
       if (_currentIndex != pageIndex) {
         return;
       }

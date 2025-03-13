@@ -2,6 +2,7 @@ import 'package:example/page_view/bottom_nav_page.dart';
 import 'package:example/page_view/tab_page.dart';
 import 'package:example/pages/dialog_page.dart';
 import 'package:example/pages/drawer_page.dart';
+import 'package:example/pages/index_stack_page.dart';
 import 'package:example/pages/pop_page.dart';
 import 'package:example/pages/pop_until_page.dart';
 import 'package:example/pages/replace_page.dart';
@@ -14,6 +15,8 @@ import 'root_controller.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  ControllerConfig.instance.controllerLog = false;
+  ControllerConfig.instance.globalStateLog = true;
   AppLifecycleManager.instance.listen();
   runApp(const MyApp());
 }
@@ -40,6 +43,7 @@ class MyApp extends BasePage<RootController> {
         "/replace": (_) => const ReplacePage(),
         "/dialog": (_) => const DialogPage(),
         "/updatePage": (_) => const UpdatePage(),
+        "/indexStack": (_) => const IndexStackPage(),
       },
       home: const HomePage(),
       navigatorObservers: [LifecycleRouteObserver()],

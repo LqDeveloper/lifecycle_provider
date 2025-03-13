@@ -15,4 +15,16 @@ class BasePageController<T extends Enum> extends BaseController<T> {
     super.onPageStop();
     logMessage("$runtimeType ---onPageStop");
   }
+
+  @override
+  void onPageResume() {
+    super.onPageResume();
+    logMessage("$runtimeType ---onPageResume");
+  }
+
+  @override
+  void onPagePause() {
+    super.onPagePause();
+    logMessage("$runtimeType ---onPagePause");
+  }
 }

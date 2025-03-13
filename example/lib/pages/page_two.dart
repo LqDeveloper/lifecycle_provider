@@ -1,3 +1,4 @@
+import 'package:example/global/person_info.dart';
 import 'package:example/pages/login_event.dart';
 import 'package:flutter/material.dart';
 import 'package:lifecycle_provider/lifecycle_provider.dart';
@@ -48,5 +49,12 @@ class PageTwoController extends BasePageController {
     observeEvent<LogoutEvent>((event) {
       debugPrint('接收到了退出登录事件 -- $lifecycleState');
     });
+  }
+
+  @override
+  void onPageStart() {
+    super.onPageStart();
+    final per = getGlobalState<PersonInfo>();
+    logMessage(per.toString());
   }
 }

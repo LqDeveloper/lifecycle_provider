@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '../global_state/global_state_mixin.dart';
 import 'event_bus_mixin.dart';
 import 'lifecycle_mixin.dart';
 import 'notify_mixin.dart';
 
 abstract class BaseController<T extends Enum> extends ChangeNotifier
-    with NotifyMixin<T>, LifecycleMixin, EventBusMixin {
+    with NotifyMixin<T>, LifecycleMixin, EventBusMixin, GlobalStateMixin {
   @override
   @mustCallSuper
   void onPageInit() {

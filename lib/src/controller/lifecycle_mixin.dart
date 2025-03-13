@@ -80,8 +80,6 @@ mixin LifecycleMixin on ChangeNotifier {
       case LifecycleState.onAppBackground:
         onAppBackground();
         break;
-      default:
-        break;
     }
   }
 

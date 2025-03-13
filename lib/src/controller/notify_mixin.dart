@@ -3,6 +3,9 @@ import 'package:flutter/scheduler.dart';
 
 import 'package:meta/meta.dart';
 
+import '../config/controller_config.dart';
+import '../config/log_utils.dart';
+
 class _State<T> {
   final T name;
 
@@ -146,8 +149,8 @@ mixin NotifyMixin<T extends Enum> on ChangeNotifier {
 
   @protected
   void logMessage(String message) {
-    if (kDebugMode && shouldLog) {
-      debugPrint("${runtimeType.toString()}: $message");
+    if (ControllerConfig.instance.controllerLog) {
+      LogUtils.d("${runtimeType.toString()}: $message");
     }
   }
 

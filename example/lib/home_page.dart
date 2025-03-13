@@ -22,6 +22,11 @@ class HomePage extends StatelessWidget {
                 _push(context, '/bottomNav');
               }),
           ListItem(
+              title: "IndexStack场景",
+              onTap: () {
+                _push(context, '/indexStack');
+              }),
+          ListItem(
               title: "Drawer场景",
               onTap: () {
                 _push(context, '/drawer');

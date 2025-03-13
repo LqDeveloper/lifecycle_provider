@@ -26,9 +26,37 @@ class _PageThreeState extends BasePageState<PageThree, PageThreeController> {
   @override
   Widget providerStateBuild(
       BuildContext context, PageThreeController controller) {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
-        child: ObserveWidget(),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const ObserveWidget(),
+            const SizedBox(height: 20),
+            InkWell(
+              onTap: () {
+                showDialog(
+                    context: context,
+                    builder: (cxt) {
+                      return AlertDialog(
+                        title: const Text('这是弹窗'),
+                        actions: [
+                          TextButton(
+                              onPressed: () {
+                                Navigator.of(context).popUntil(
+                                    (route) => route.settings.name == '/');
+                              },
+                              child: const Text('dismiss'))
+                        ],
+                      );
+                    });
+              },
+              child: const Center(
+                child: Text('DialogPage'),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

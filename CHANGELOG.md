@@ -1,3 +1,7 @@
+## 0.0.13
+
+* handle global data
+
 ## 0.0.12
 
 * fix issue

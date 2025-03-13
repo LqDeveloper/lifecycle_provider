@@ -1,3 +1,4 @@
+import 'package:example/global/person_info.dart';
 import 'package:example/pages/login_event.dart';
 import 'package:example/root_controller.dart';
 import 'package:flutter/material.dart';
@@ -54,6 +55,12 @@ class _PageOneState extends BasePageState<PageOne, PageOneController> {
 }
 
 class PageOneController extends BasePageController {
+  @override
+  void onPageInit() {
+    super.onPageInit();
+    registerGlobalState(PersonInfo("小明", 10));
+  }
+
   void sendLoginEvent() {
     dispatchEvent(const LoginEvent(true));
   }
