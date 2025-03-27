@@ -68,7 +68,9 @@ mixin StateLifecycleMixin<T extends StatefulWidget> on State<T>
       }
       LifecycleRouteObserver.instance.subscribe(_modalRoute!, this);
       onPageContextReady(
-          _modalRoute?.settings.name, _modalRoute?.settings.arguments);
+        _modalRoute?.settings.name,
+        _modalRoute?.settings.arguments,
+      );
       onLifecycleStateChanged(LifecycleState.onPageContextReady);
       _modalRoute?.animation?.addStatusListener(_handlerAnimationStatus);
     }

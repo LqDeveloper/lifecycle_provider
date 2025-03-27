@@ -21,8 +21,5 @@ mixin PageMixin<T extends LifecycleMixin> {
 
   T createController(BuildContext context);
 
-  Widget providerStateBuild(
-    BuildContext context,
-    T controller,
-  );
+  Widget providerStateBuild(BuildContext context, T controller);
 }

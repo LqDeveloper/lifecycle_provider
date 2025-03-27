@@ -18,11 +18,12 @@ class ProviderStateBuilder<T extends LifecycleMixin> extends StatelessWidget {
     required this.create,
     this.child,
     this.builder,
-  })  : assert(
-            (child == null && builder != null) ||
-                (child != null && builder == null),
-            'child 和 builder 不能同时为空或者同时不为空'),
-        super(key: key);
+  }) : assert(
+         (child == null && builder != null) ||
+             (child != null && builder == null),
+         'child 和 builder 不能同时为空或者同时不为空',
+       ),
+       super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,10 +39,7 @@ class ProviderStateBuilder<T extends LifecycleMixin> extends StatelessWidget {
               if (child != null) {
                 return child!;
               } else {
-                return builder!.call(
-                  context,
-                  controller,
-                );
+                return builder!.call(context, controller);
               }
             },
           );

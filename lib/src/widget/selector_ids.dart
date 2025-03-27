@@ -5,8 +5,8 @@ import 'package:provider/provider.dart';
 import '../controller/base_controller.dart';
 import 'provider_context_extension.dart';
 
-typedef CustomSelectorBuilder<E extends Enum, T extends BaseController<E>>
-    = Widget Function(BuildContext context, T controller, Widget? child);
+typedef CustomSelectorBuilder<E extends Enum, T extends BaseController<E>> =
+    Widget Function(BuildContext context, T controller, Widget? child);
 
 class SelectorIds<E extends Enum, T extends BaseController<E>>
     extends StatelessWidget {
@@ -27,8 +27,9 @@ class SelectorIds<E extends Enum, T extends BaseController<E>>
     assert(controller.containsMultiId(ids), 'ids:$ids中包含没有注册的id ');
     return Selector<T, int>(
       child: child,
-      selector: (BuildContext context, controller) =>
-          controller.updateMultiIdValue(ids),
+      selector:
+          (BuildContext context, controller) =>
+              controller.updateMultiIdValue(ids),
       builder: (BuildContext context, int value, Widget? child) {
         return builder(context, controller, child);
       },

@@ -16,8 +16,10 @@ class LifecycleRouteObserver extends NavigatorObserver {
 
   @internal
   void subscribe(ModalRoute route, LifecycleRouteAware routeAware) {
-    final Set<LifecycleRouteAware> subscribers =
-        _listeners.putIfAbsent(route, () => <LifecycleRouteAware>{});
+    final Set<LifecycleRouteAware> subscribers = _listeners.putIfAbsent(
+      route,
+      () => <LifecycleRouteAware>{},
+    );
     subscribers.add(routeAware);
   }
 

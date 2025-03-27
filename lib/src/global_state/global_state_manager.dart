@@ -55,7 +55,8 @@ class GlobalStateManager {
     final referenceState = _globalState[key]!;
     referenceState.count++;
     _debugGlobalData(
-        "Retain: ${referenceState.state.runtimeType} referenceCount:${referenceState.count}");
+      "Retain: ${referenceState.state.runtimeType} referenceCount:${referenceState.count}",
+    );
     return referenceState.state as T;
   }
 
@@ -69,7 +70,8 @@ class GlobalStateManager {
     }
     referenceState.count--;
     _debugGlobalData(
-        "Release: ${referenceState.state.runtimeType} referenceCount:${referenceState.count}");
+      "Release: ${referenceState.state.runtimeType} referenceCount:${referenceState.count}",
+    );
     if (referenceState.count == 0) {
       _globalState.remove(key);
       _debugGlobalData("Dispose: ${referenceState.state.runtimeType}");

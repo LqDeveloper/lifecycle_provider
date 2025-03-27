@@ -93,8 +93,10 @@ mixin NotifyMixin<T extends Enum> on ChangeNotifier {
       return;
     }
     for (T id in ids) {
-      assert(containsId(id),
-          '${runtimeType.toString()}: Id: $id must be register');
+      assert(
+        containsId(id),
+        '${runtimeType.toString()}: Id: $id must be register',
+      );
       _updatedIds[id]?.increasedTag();
     }
     observeNotifyEvent(ids);
@@ -110,7 +112,9 @@ mixin NotifyMixin<T extends Enum> on ChangeNotifier {
     assert(_hasRegister, '${runtimeType.toString()}: registerIds not call');
     logMessage("--更新了--id: $id ");
     assert(
-        containsId(id), '${runtimeType.toString()}: id: $id must be register');
+      containsId(id),
+      '${runtimeType.toString()}: id: $id must be register',
+    );
     _updatedIds[id]?.increasedTag();
     observeNotifyEvent([id]);
     notifyListeners();
@@ -125,8 +129,10 @@ mixin NotifyMixin<T extends Enum> on ChangeNotifier {
   bool containsMultiId(List<T> ids) {
     for (T id in ids) {
       if (!containsId(id)) {
-        assert(containsId(id),
-            '${runtimeType.toString()}: id: $id must be register');
+        assert(
+          containsId(id),
+          '${runtimeType.toString()}: id: $id must be register',
+        );
         return false;
       }
     }

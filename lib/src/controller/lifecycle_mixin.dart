@@ -83,10 +83,7 @@ mixin LifecycleMixin on ChangeNotifier {
     }
   }
 
-  void setupRouteInfo(
-    String? name,
-    Object? arguments,
-  ) {
+  void setupRouteInfo(String? name, Object? arguments) {
     _routeName = name;
     _arguments = arguments;
   }

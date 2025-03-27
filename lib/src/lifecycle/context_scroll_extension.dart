@@ -24,7 +24,8 @@ extension ContextScrollExtension on BuildContext {
 
   RenderViewportBase? findViewport({int maxCycleCount = 10}) {
     return findAncestorRenderObj<RenderViewportBase>(
-        maxCycleCount: maxCycleCount);
+      maxCycleCount: maxCycleCount,
+    );
   }
 
   RenderAbstractViewport? findViewportToRoot() {

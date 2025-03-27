@@ -16,13 +16,12 @@ class CustomIndexedStack extends IndexedStack {
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> wrappedChildren =
-        List<Widget>.generate(children.length, (int i) {
-      return Visibility.maintain(
-        visible: i == index,
-        child: children[i],
-      );
-    });
+    final List<Widget> wrappedChildren = List<Widget>.generate(
+      children.length,
+      (int i) {
+        return Visibility.maintain(visible: i == index, child: children[i]);
+      },
+    );
     return _CustomRawIndexedStack(
       alignment: alignment,
       textDirection: textDirection,
@@ -59,7 +58,9 @@ class _CustomRawIndexedStack extends Stack {
 
   @override
   void updateRenderObject(
-      BuildContext context, CustomRenderIndexedStack renderObject) {
+    BuildContext context,
+    CustomRenderIndexedStack renderObject,
+  ) {
     renderObject
       ..index = index
       ..fit = fit

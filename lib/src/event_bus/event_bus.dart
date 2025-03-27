@@ -6,10 +6,10 @@ class EventBus {
   StreamController<dynamic> get streamController => _streamController;
 
   EventBus({bool sync = false})
-      : _streamController = StreamController<dynamic>.broadcast(sync: sync);
+    : _streamController = StreamController<dynamic>.broadcast(sync: sync);
 
   EventBus.customController(StreamController controller)
-      : _streamController = controller;
+    : _streamController = controller;
 
   Stream<T> on<T>() {
     if (T == dynamic) {
