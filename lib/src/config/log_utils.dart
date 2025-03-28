@@ -21,7 +21,6 @@ class LogUtils {
 
   static void init({
     String name = 'lifecycle_provider',
-    int maxLength = 500,
     LogLevel level = LogLevel.debug,
   }) {
     _name = name;
