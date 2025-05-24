@@ -12,11 +12,18 @@ class PageTwo extends StatefulWidget {
   State<PageTwo> createState() => _PageTwoState();
 }
 
-class _PageTwoState extends BasePageState<PageTwo, PageTwoController> {
+class _PageTwoState extends BasePageState<PageTwo, PageTwoController> with StateLifecycleMixin{
   @override
   PageTwoController createController(BuildContext context) {
     return PageTwoController();
   }
+
+  @override
+  void onPageStart() {
+    super.onPageStart();
+    print("_PageTwoState ---onPageStart");
+  }
+
 
   @override
   int get pageIndex => 1;

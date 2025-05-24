@@ -1,16 +1,16 @@
 name: lifecycle_provider
 description: Based on the provider and combined with GetX, a state management tool is developed, which enables the widget to have an Android-like life cycle.
-version: 0.0.14
+version: 0.0.16
 homepage: https://github.com/LqDeveloper/lifecycle_provider
 
 environment:
-  sdk: ^3.7.0
+  sdk: ^3.5.4
   flutter: ">=1.17.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  meta: ^1.16.0
+  meta: ^1.15.0
   provider: ^6.1.4
 
 dev_dependencies:

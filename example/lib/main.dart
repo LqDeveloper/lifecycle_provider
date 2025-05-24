@@ -15,8 +15,8 @@ import 'root_controller.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  ControllerConfig.instance.controllerLog = false;
-  ControllerConfig.instance.globalStateLog = true;
+  ControllerConfig.instance.controllerLog = true;
+  ControllerConfig.instance.globalStateLog = false;
   AppLifecycleManager.instance.listen();
   runApp(const MyApp());
 }
