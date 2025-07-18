@@ -13,7 +13,7 @@ class ProviderStateBuilder<T extends LifecycleMixin> extends StatelessWidget {
   final Widget? child;
 
   const ProviderStateBuilder({
-    Key? key,
+    super.key,
     this.pageIndex,
     required this.create,
     this.child,
@@ -22,8 +22,7 @@ class ProviderStateBuilder<T extends LifecycleMixin> extends StatelessWidget {
          (child == null && builder != null) ||
              (child != null && builder == null),
          'child 和 builder 不能同时为空或者同时不为空',
-       ),
-       super(key: key);
+       );
 
   @override
   Widget build(BuildContext context) {

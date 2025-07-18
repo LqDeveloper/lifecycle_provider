@@ -1,11 +1,10 @@
+// ignore: unnecessary_library_name
 library lifecycle_provider;
 
 export 'src/controller/base_controller.dart';
 export 'src/controller/event_bus_mixin.dart';
 export 'src/controller/lifecycle_mixin.dart';
 export 'src/controller/notify_mixin.dart';
-export 'src/global_state/global_state_mixin.dart';
-export 'src/global_state/base_global_state.dart';
 export 'src/event_bus/event_bus.dart';
 export 'src/event_bus/global_event_bus.dart';
 export 'src/lifecycle/app_lifecycle_manager.dart';

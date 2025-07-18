@@ -13,11 +13,11 @@ class LifecycleObserverWidget<T extends LifecycleMixin> extends StatefulWidget {
   final T controller;
 
   const LifecycleObserverWidget({
-    Key? key,
+    super.key,
     required this.builder,
     required this.controller,
     this.pageIndex,
-  }) : super(key: key);
+  });
 
   @override
   State<LifecycleObserverWidget> createState() =>

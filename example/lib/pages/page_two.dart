@@ -1,4 +1,3 @@
-import 'package:example/global/person_info.dart';
 import 'package:example/pages/login_event.dart';
 import 'package:flutter/material.dart';
 import 'package:lifecycle_provider/lifecycle_provider.dart';
@@ -12,7 +11,8 @@ class PageTwo extends StatefulWidget {
   State<PageTwo> createState() => _PageTwoState();
 }
 
-class _PageTwoState extends BasePageState<PageTwo, PageTwoController> with StateLifecycleMixin{
+class _PageTwoState extends BasePageState<PageTwo, PageTwoController>
+    with StateLifecycleMixin {
   @override
   PageTwoController createController(BuildContext context) {
     return PageTwoController();
@@ -21,9 +21,8 @@ class _PageTwoState extends BasePageState<PageTwo, PageTwoController> with State
   @override
   void onPageStart() {
     super.onPageStart();
-    print("_PageTwoState ---onPageStart");
+    debugPrint("_PageTwoState ---onPageStart");
   }
-
 
   @override
   int get pageIndex => 1;
@@ -56,12 +55,5 @@ class PageTwoController extends BasePageController {
     observeEvent<LogoutEvent>((event) {
       debugPrint('接收到了退出登录事件 -- $lifecycleState');
     });
-  }
-
-  @override
-  void onPageStart() {
-    super.onPageStart();
-    final per = getGlobalState<PersonInfo>();
-    logMessage(per.toString());
   }
 }
