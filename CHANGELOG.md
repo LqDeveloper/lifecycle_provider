@@ -1,3 +1,11 @@
+## 0.0.18
+
+* add state_event_bus_mixin
+* 
+## 0.0.17
+
+* remove global state
+
 ## 0.0.16
 
 * sdk: 3.5.4
